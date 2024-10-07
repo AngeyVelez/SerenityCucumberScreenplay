@@ -9,4 +9,11 @@ public class NavigateTo {
         return Task.where("{0} opens the DuckDuckGo home page",
                 Open.browserOn().the(DuckDuckGoHomePage.class));
     }
+
+    public static Performable theLoginPage() {
+        return Task.where("{0} opens the login page",
+                Open.browserOn().the(LoginPage.class));
+    }
+
+
 }
