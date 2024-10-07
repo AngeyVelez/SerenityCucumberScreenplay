@@ -6,6 +6,7 @@ import io.cucumber.java.en.When;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.questions.page.TheWebPage;
 import starter.login.ClickLoginButton;
+import starter.login.InvalidCredentials;
 import starter.navigation.NavigateTo;
 import net.serenitybdd.screenplay.ensure.Ensure;
 
@@ -29,12 +30,17 @@ public class LoginStepDefinitions {
         }
     }
 
-//    @When("{actor} enters his username and incorrect password")
-//    public void entersUsernameAndIncorrectPassword(Actor actor) {
-//        actor.attemptsTo(
-//                PerformLogin.withCredentials("username", "incorrectPassword")
-//        );
-//    }
+    @When("{actor} enters his username {string} and incorrect password {string}")
+    public void entersUsernameAndIncorrectPassword(Actor actor, String username, String password) {
+        actor.attemptsTo(
+                ClickLoginButton.about(username, password)
+        );
+        try {
+            Thread.sleep(2000); // Sleep for 2 seconds
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Then("{actor} should be redirected to the home page")
     public void shouldBeRedirectedToHomePage(Actor actor) {
@@ -43,10 +49,10 @@ public class LoginStepDefinitions {
         );
     }
 
-//    @Then("{actor} should see an error message")
-//    public void shouldSeeErrorMessage(Actor actor) {
-//        actor.attemptsTo(
-//                Ensure.that(TheWebPage.title()).containsIgnoringCase("Error")
-//        );
-//    }
+    @Then("{actor} should see an error message")
+    public void shouldSeeErrorMessage(Actor actor) {
+        actor.attemptsTo(
+                Ensure.that(InvalidCredentials.INVALID_MESSAGE).isDisplayed()
+        );
+    }
 }
